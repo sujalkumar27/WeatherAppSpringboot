@@ -2,11 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>⛅Weather App by GoldenCat⛅</title>
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap css -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Weather Icons CSS -->
+    <!-- Weather icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
     <link rel="stylesheet" type="text/css" href="/css/weather.css">
+    <script>
+        function toggleAQIDetails() {
+            const details = document.getElementById('aqi-details');
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -20,7 +26,31 @@
                     <p class="card-text"><strong>Temperature:</strong> <span th:text="${temperature}">Temperature</span>°C</p>
                     <p class="card-text"><strong>Humidity:</strong> <span th:text="${humidity}">Humidity</span>%</p>
                     <p class="card-text"><strong>Wind Speed:</strong> <span th:text="${windSpeed}">Wind Speed</span> m/s</p>
-                    <a href="/" class="btn btn-secondary btn-block">Back</a>
+
+
+                    <p class="card-text" th:if="${aqi != null}">
+                        <strong>Air Quality Index (AQI):</strong>
+                        <span th:text="${aqi}" th:class="'aqi-' + ${aqi}"
+                              th:title="${aqi == 1 ? 'Good' : aqi == 2 ? 'Fair' : aqi == 3 ? 'Moderate' : aqi == 4 ? 'Poor' : 'Very Poor'}">
+        AQI
+    </span>
+                    </p>
+
+                    <button class="btn btn-info btn-sm mb-3" th:if="${aqi != null}" onclick="toggleAQIDetails()">
+                        Show More
+                    </button>
+
+                    <div id="aqi-details" style="display: none; text-align: left; margin-top: 10px;" th:if="${aqi != null}">
+                        <p><strong>PM2.5:</strong> <span th:text="${pm25}">0</span> μg/m³</p>
+                        <p><strong>PM10:</strong> <span th:text="${pm10}">0</span> μg/m³</p>
+                        <p><strong>O₃:</strong> <span th:text="${o3}">0</span> μg/m³</p>
+                        <p><strong>SO₂:</strong> <span th:text="${so2}">0</span> μg/m³</p>
+                        <p><strong>NO₂:</strong> <span th:text="${no2}">0</span> μg/m³</p>
+                    </div>
+
+
+
+                    <a href="/" class="btn btn-secondary btn-block mt-3">Back</a>
                     <div th:if="${error}" class="alert alert-danger mt-3">
                         <p>Error: <span th:text="${error}"></span></p>
                     </div>
@@ -30,7 +60,6 @@
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

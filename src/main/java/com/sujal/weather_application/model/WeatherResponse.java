@@ -19,6 +19,19 @@ public class WeatherResponse {
     public void setSys(Sys sys) {
         this.sys = sys;
     }
+    private Coord coord;
+
+    public Coord getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coord coord) {
+        this.coord = coord;
+    }
+    private int cod;
+    public int getCod() {
+        return cod;
+    }
 
     public List<Weather> getWeather() {
         return weather;
